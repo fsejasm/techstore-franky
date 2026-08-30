@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Fallos de aserción",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*expect.*"
+  },
+  {
+    "name": "Errores de red / servidor",
+    "matchedStatuses": ["broken"],
+    "messageRegex": ".*(ECONNREFUSED|ETIMEDOUT|socket hang up|fetch failed).*"
+  },
+  {
+    "name": "Tests ignorados",
+    "matchedStatuses": ["skipped"]
+  }
+]

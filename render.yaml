@@ -1,0 +1,15 @@
+# Configuración de despliegue para Render (https://render.com).
+# Al conectar el repo, Render detecta este archivo y crea el servicio.
+services:
+  - type: web
+    name: techstore-demo
+    runtime: node
+    plan: free
+    # --omit=dev: en producción no hacen falta Playwright/allure (devDeps).
+    # El server solo necesita express + tsx, que están en dependencies.
+    buildCommand: npm install --omit=dev
+    startCommand: npm start
+    envVars:
+      # Render inyecta PORT automáticamente; la app ya lo respeta.
+      - key: NODE_ENV
+        value: production

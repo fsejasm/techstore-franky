@@ -1,0 +1,49 @@
+{
+  "name": "test-automation-app",
+  "version": "1.0.0",
+  "description": "Playwright + TypeScript test automation for Web UI and API testing",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "tsx app/src/server.ts",
+    "dev": "tsx watch app/src/server.ts",
+    "test": "playwright test --project=web-chromium --project=api",
+    "test:web": "playwright test --project=web-chromium",
+    "test:api": "playwright test --project=api",
+    "test:bugs": "playwright test --project=bug-hunting-api --project=bug-hunting-web",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report",
+    "allure:generate": "node scripts/allure-generate.mjs",
+    "allure:open": "allure open allure-report",
+    "allure:serve": "allure serve allure-results",
+    "codegen": "playwright codegen",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "test-automation",
+    "e2e",
+    "api-testing",
+    "allure"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.0",
+    "tsx": "^4.19.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.47.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.5.0",
+    "allure-commandline": "^2.30.0",
+    "allure-playwright": "^3.0.0",
+    "dotenv": "^16.4.5",
+    "typescript": "^5.5.4"
+  }
+}

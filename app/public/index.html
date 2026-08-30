@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechStore Franky - Marketplace de tecnología</title>
+    <!-- Fuentes web (con fallback a system-font si no hay conexión) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css?v=4" />
+  </head>
+  <body>
+    <header>
+      <div class="topbar">
+        <div class="brand">
+          <span class="logo" aria-hidden="true">🛒</span>
+          <h1 class="brand-name">TechStore<span class="brand-accent">Franky</span></h1>
+        </div>
+
+        <form id="search-form" class="search" data-testid="search-form" role="search">
+          <input
+            type="search"
+            id="search-input"
+            data-testid="search-input"
+            placeholder="Buscar productos, marcas y más..."
+            aria-label="Buscar productos"
+          />
+          <button type="submit" class="search-btn" data-testid="search-button" aria-label="Buscar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+          </button>
+        </form>
+
+        <nav class="header-actions">
+          <label class="bug-switch" title="Activa/desactiva los bugs didácticos">
+            <input
+              type="checkbox"
+              id="bug-toggle"
+              data-testid="bug-toggle"
+              aria-label="Modo Bug Hunting"
+            />
+            <span class="bug-switch-track" aria-hidden="true"></span>
+            <span class="bug-switch-label">
+              Bug Hunting: <strong data-testid="bug-status">OFF</strong>
+            </span>
+          </label>
+
+          <button
+            id="cart-toggle"
+            data-testid="cart-toggle"
+            class="cart-toggle"
+            aria-label="Abrir carrito"
+          >
+            Carrito (<span data-testid="cart-count">0</span>)
+          </button>
+          <div id="session" data-testid="session" hidden>
+            <span>Hola, <strong data-testid="current-user"></strong></span>
+            <span class="role-badge" data-testid="current-role">customer</span>
+            <button id="logout-btn" data-testid="logout-button">Salir</button>
+          </div>
+        </nav>
+      </div>
+
+    </header>
+
+    <div class="layout">
+      <!-- Menú lateral izquierdo -->
+      <nav id="sidebar" class="sidebar" data-testid="sidebar" aria-label="Menú principal" hidden>
+        <button class="menu-link active" data-testid="nav-home" data-view="home">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 9.5 12 3l9 6.5" />
+            <path d="M5 10v10h14V10" />
+            <path d="M9 20v-6h6v6" />
+          </svg>
+          <span class="label">Inicio</span>
+        </button>
+        <button class="menu-link" data-testid="nav-deals" data-view="deals">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0l-7-7A2 2 0 0 1 3 12.2V5a2 2 0 0 1 2-2h7.2a2 2 0 0 1 1.4.6l7 7a2 2 0 0 1 0 2.8Z" />
+            <circle cx="7.5" cy="7.5" r="1.5" />
+          </svg>
+          <span class="label">Ofertas</span>
+        </button>
+        <button class="menu-link" data-testid="nav-favorites" data-view="favorites">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 20s-7-4.6-9.3-9A4.8 4.8 0 0 1 12 6a4.8 4.8 0 0 1 9.3 5c-2.3 4.4-9.3 9-9.3 9Z" />
+          </svg>
+          <span class="label">Favoritos</span>
+          <span class="badge" data-testid="favorites-count">0</span>
+        </button>
+        <button class="menu-link" data-testid="nav-orders" data-view="orders">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 8 12 3 3 8l9 5 9-5Z" />
+            <path d="M3 8v8l9 5 9-5V8" />
+            <path d="M12 13v8" />
+          </svg>
+          <span class="label">Mis pedidos</span>
+        </button>
+        <button class="menu-link" data-testid="nav-manage" data-view="manage" hidden>
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+            <path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 7 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H1a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 2.6 7a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H7a1.6 1.6 0 0 0 1-1.5V1a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V7a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z" />
+          </svg>
+          <span class="label">Gestión</span>
+        </button>
+        <button class="menu-link" data-testid="nav-qa" data-view="qa">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m9 11 3 3 8-8" />
+            <path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9" />
+          </svg>
+          <span class="label">QA Runner</span>
+        </button>
+      </nav>
+
+      <!-- Columna izquierda: login + banner promocional (visible sin sesión) -->
+      <div id="login-view" data-testid="login-view" class="login-column">
+      <section class="login-panel">
+        <h2>Iniciar sesión</h2>
+        <form id="login-form" data-testid="login-form">
+          <label>
+            Usuario
+            <input
+              type="text"
+              id="username"
+              name="username"
+              data-testid="username-input"
+              autocomplete="username"
+              required
+            />
+          </label>
+          <label>
+            Contraseña
+            <input
+              type="password"
+              id="password"
+              name="password"
+              data-testid="password-input"
+              autocomplete="current-password"
+              required
+            />
+          </label>
+          <button type="button" data-testid="login-button">Entrar</button>
+        </form>
+        <p id="login-error" data-testid="login-error" class="error" role="alert" hidden></p>
+
+        <div class="demo-accounts" data-testid="demo-accounts">
+          <p class="hint">Cuentas de demo:</p>
+          <p class="hint"><code>admin</code> / <code>admin123</code> — gestiona y elimina productos</p>
+          <p class="hint"><code>manager</code> / <code>manager123</code> — crea y edita, no elimina</p>
+          <p class="hint"><code>customer</code> / <code>customer123</code> — solo comprar y favoritos</p>
+        </div>
+      </section>
+
+      <!-- Banner promocional, separado del cuadro de login -->
+      <aside class="promo-banner" data-testid="promo-banner">
+        <div class="promo-phone" aria-hidden="true">
+          <div class="promo-phone-screen">
+            <span class="promo-phone-emoji">📱</span>
+            <span class="promo-phone-tag">-50%</span>
+          </div>
+        </div>
+        <div class="promo-text">
+          <span class="promo-kicker">Oferta del mes</span>
+          <h3>El mejor precio en tecnología</h3>
+          <p>Descubre celulares, laptops y más con envío gratis.</p>
+        </div>
+      </aside>
+      </div>
+
+      <main>
+      <!-- Vista Inicio: catálogo con filtros -->
+      <section id="home-view" data-testid="home-view" class="view" hidden>
+        <div class="view-head">
+          <h2 id="catalog-title" data-testid="catalog-title">Catálogo</h2>
+          <div id="category-filters" class="category-filters" data-testid="category-filters"></div>
+        </div>
+        <p id="results-empty" data-testid="results-empty" class="muted" hidden>
+          No se encontraron productos.
+        </p>
+        <div id="product-grid" data-testid="product-grid" class="product-grid"></div>
+      </section>
+
+      <!-- Vista Ofertas -->
+      <section id="deals-view" data-testid="deals-view" class="view" hidden>
+        <div class="view-head"><h2>Ofertas del día</h2></div>
+        <div id="deals-grid" data-testid="deals-grid" class="product-grid"></div>
+      </section>
+
+      <!-- Vista Favoritos -->
+      <section id="favorites-view" data-testid="favorites-view" class="view" hidden>
+        <div class="view-head"><h2>Tus favoritos</h2></div>
+        <p id="favorites-empty" data-testid="favorites-empty" class="muted" hidden>
+          Aún no tienes favoritos.
+        </p>
+        <div id="favorites-grid" data-testid="favorites-grid" class="product-grid"></div>
+      </section>
+
+      <!-- Vista Mis pedidos -->
+      <section id="orders-view" data-testid="orders-view" class="view" hidden>
+        <div class="view-head"><h2>Mis pedidos</h2></div>
+        <p id="orders-empty" data-testid="orders-empty" class="muted" hidden>
+          Todavía no has realizado pedidos.
+        </p>
+        <ul id="orders-list" data-testid="orders-list" class="orders-list"></ul>
+      </section>
+
+      <!-- Vista Gestión (solo roles con permiso de gestionar productos) -->
+      <section id="manage-view" data-testid="manage-view" class="view" hidden>
+        <div class="view-head"><h2>Gestión de productos</h2></div>
+        <p class="muted">
+          Rol actual: <strong data-testid="manage-role"></strong>.
+          <span data-testid="manage-hint"></span>
+        </p>
+        <form id="create-product-form" data-testid="create-product-form" class="manage-form">
+          <input type="text" data-testid="new-product-name" placeholder="Nombre del producto" required />
+          <input type="text" data-testid="new-product-category" placeholder="Categoría" required />
+          <input type="number" data-testid="new-product-price" placeholder="Precio" min="0" step="0.01" required />
+          <button type="submit" data-testid="create-product-button">Crear producto</button>
+        </form>
+        <p id="manage-feedback" data-testid="manage-feedback" class="confirmation" role="status" hidden></p>
+        <ul id="manage-list" data-testid="manage-list" class="manage-list"></ul>
+      </section>
+
+      <!-- Vista QA Runner: ejecutar suites de Playwright desde la app -->
+      <section id="qa-view" data-testid="qa-view" class="view" hidden>
+        <div class="view-head"><h2>QA Runner</h2></div>
+        <p class="muted">
+          Ejecuta las suites de pruebas y consulta los resultados sin salir de la app.
+        </p>
+
+        <div class="qa-controls">
+          <label class="qa-field">
+            <span>Suite</span>
+            <select id="qa-suite" data-testid="qa-suite">
+              <option value="web">Web UI (web-chromium)</option>
+              <option value="api">API</option>
+              <option value="all">Web + API</option>
+              <option value="bug-hunting">Bug Hunting (falla a propósito)</option>
+            </select>
+          </label>
+          <label class="qa-field">
+            <span>Filtro por nombre (opcional)</span>
+            <input type="text" id="qa-grep" data-testid="qa-grep" placeholder="p. ej. login, carrito..." />
+          </label>
+          <label class="qa-check">
+            <input type="checkbox" id="qa-bugs" data-testid="qa-bugs" />
+            <span>Activar modo Bug Hunting</span>
+          </label>
+          <button id="qa-run" data-testid="qa-run-button" class="qa-run-btn">Ejecutar pruebas</button>
+        </div>
+
+        <div class="qa-note" data-testid="qa-note">
+          <strong>¿Cómo ver los bugs?</strong>
+          <ul>
+            <li>Suite <b>“Bug Hunting”</b>: corre los tests que detectan los bugs; fallan a propósito (activan el modo por su cuenta).</li>
+            <li>Suite <b>Web UI / API</b> con <b>“Activar modo Bug Hunting”</b> marcado: los tests normales fallan porque el modo rompe la app.</li>
+            <li>Sin marcar el modo, las suites Web UI / API pasan todas (app correcta).</li>
+          </ul>
+        </div>
+
+        <div id="qa-status" data-testid="qa-status" class="qa-status" hidden></div>
+
+        <pre id="qa-output" data-testid="qa-output" class="qa-output" hidden></pre>
+
+        <div id="qa-report-wrap" data-testid="qa-report-wrap" class="qa-report-wrap" hidden>
+          <div class="qa-report-head">
+            <span>Reporte HTML de Playwright</span>
+            <a id="qa-report-link" data-testid="qa-report-link" href="/qa-report/" target="_blank" rel="noopener">Abrir en pestaña nueva ↗</a>
+          </div>
+          <iframe
+            id="qa-report-frame"
+            data-testid="qa-report-frame"
+            class="qa-report-frame"
+            title="Reporte de Playwright"
+          ></iframe>
+        </div>
+      </section>
+      </main>
+    </div>
+
+    <!-- Overlay que oscurece el fondo y cierra el carrito al hacer clic -->
+    <div id="cart-overlay" data-testid="cart-overlay" class="cart-overlay" hidden></div>
+
+    <!-- Panel lateral del carrito -->
+    <aside id="cart-panel" data-testid="cart-panel" class="cart-panel" hidden>
+      <div class="cart-header">
+        <h2>Tu carrito</h2>
+      </div>
+      <ul id="cart-items" data-testid="cart-items" class="cart-items"></ul>
+      <p id="cart-empty" data-testid="cart-empty" class="muted">
+        <span class="cart-empty-icon" aria-hidden="true">🛒</span>
+        Tu carrito está vacío.
+      </p>
+      <div class="cart-footer">
+        <p
+          id="order-confirmation"
+          data-testid="order-confirmation"
+          class="confirmation"
+          role="status"
+          hidden
+        ></p>
+        <div class="cart-total">
+          <span>Total</span>
+          <strong data-testid="cart-total">$0.00</strong>
+        </div>
+        <button id="checkout-btn" data-testid="checkout-button" class="checkout-btn" disabled>
+          Finalizar compra
+        </button>
+      </div>
+    </aside>
+
+    <script src="/app.js?v=2" type="module"></script>
+  </body>
+</html>
